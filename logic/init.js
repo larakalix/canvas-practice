@@ -32,7 +32,7 @@ addEventListener("keydown", ({ key }) => {
             keys.right.pressed = true;
             break;
         case "Shift":
-            game_config.speed = game_config.speed === 10 ? 15 : 10;
+            game_config.speed = game_config.speed === 10 ? 20 : 10;
             break;
 
         default:

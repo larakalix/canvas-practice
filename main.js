@@ -1,18 +1,30 @@
 import { canvas, c, player, score } from "./logic/init";
 import { keys, game_config } from "./logic/params";
-import { platforms, backgrounds } from "./logic/objects";
+import { get_platforms, get_backgrounds } from "./logic/objects";
+import { Player } from "./logic/models";
 
 let scrollOffset = 0;
 
 let __PLAYER__ = player;
 let __SCORE__ = score;
-let __PLATFORMS__ = platforms;
-let __BACKGROUNDS__ = backgrounds;
+let __PLATFORMS__ = get_platforms();
+let __BACKGROUNDS__ = get_backgrounds();
+
+const restart = () => {
+    __PLAYER__.position = { x: 100, y: 100 };
+    __PLAYER__.lives -= 1;
+
+    if (__PLAYER__.lives === 0) {
+        __PLAYER__ = new Player();
+        __PLATFORMS__ = get_platforms();
+        __BACKGROUNDS__ = get_backgrounds();
+    }
+};
 
 const drawScene = () => {
     __BACKGROUNDS__.forEach((background) => background.draw());
-
     __PLATFORMS__.forEach((platform) => platform.draw());
+
     __PLAYER__.update();
 
     __SCORE__.draw(__PLAYER__.lives);
@@ -74,21 +86,7 @@ const animate = () => {
 
     if (scrollOffset > 2000) console.log("YOU WIN!!");
 
-    if (position.y + height >= canvas.height) restart();
-};
-
-const restart = () => {
-    __PLAYER__ = player;
-    __PLAYER__.position.x = 100;
-    __PLAYER__.position.y = 100;
-    __PLAYER__.lives = __PLAYER__.lives > 0 ? __PLAYER__.lives - 1 : 0;
-
-    if (__PLAYER__.lives === 0) {
-        console.log("GAME OVER");
-    }
-
-    __PLATFORMS__ = platforms;
-    __BACKGROUNDS__ = backgrounds;
+    if (position.y >= canvas.height) restart();
 };
 
 animate();
