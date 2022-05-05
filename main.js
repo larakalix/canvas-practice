@@ -1,5 +1,5 @@
 import { canvas, c, player, score } from "./logic/init";
-import { keys } from "./logic/params";
+import { keys, game_config } from "./logic/params";
 import { platforms, backgrounds } from "./logic/objects";
 
 let scrollOffset = 0;
@@ -27,22 +27,26 @@ const animate = () => {
     const { position, velocity, width, height } = __PLAYER__;
 
     if (keys.right.pressed && position.x < canvas.width / 2) {
-        velocity.x = 10;
+        velocity.x = game_config.speed;
     } else if (keys.left.pressed && position.x > 100) {
-        velocity.x = -10;
+        velocity.x = -game_config.speed;
     } else {
         velocity.x = 0;
 
         if (keys.right.pressed) {
             scrollOffset += 5;
-            __PLATFORMS__.forEach((platform) => (platform.position.x -= 5));
+            __PLATFORMS__.forEach(
+                (platform) => (platform.position.x -= game_config.speed / 2)
+            );
             __BACKGROUNDS__.forEach(
                 (background) => (background.position.x -= 3)
             );
         } else if (keys.left.pressed) {
             scrollOffset -= 5;
             if (scrollOffset >= 0) {
-                __PLATFORMS__.forEach((platform) => (platform.position.x += 5));
+                __PLATFORMS__.forEach(
+                    (platform) => (platform.position.x += game_config.speed / 2)
+                );
                 __BACKGROUNDS__.forEach(
                     (background) => (background.position.x += 3)
                 );

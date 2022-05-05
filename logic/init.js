@@ -1,5 +1,5 @@
 import { Player, Score } from "./models";
-import { keys } from "./params";
+import { keys, game_config } from "./params";
 
 export const canvas = document.querySelector("canvas");
 export const c = canvas.getContext("2d");
@@ -7,8 +7,8 @@ export const c = canvas.getContext("2d");
 // canvas.width = innerWidth;
 // canvas.height = innerHeight;
 
-canvas.width = 800;
-canvas.height = 600;
+canvas.width = 1024;
+canvas.height = 768;
 
 export const player = new Player();
 export const score = new Score();
@@ -30,6 +30,9 @@ addEventListener("keydown", ({ key }) => {
         case "ArrowRight":
         case "d":
             keys.right.pressed = true;
+            break;
+        case "Shift":
+            game_config.speed = game_config.speed === 10 ? 15 : 10;
             break;
 
         default:

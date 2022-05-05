@@ -9,3 +9,7 @@ export const keys = {
         pressed: false,
     },
 };
+
+export const game_config = {
+    speed: 10,
+};
